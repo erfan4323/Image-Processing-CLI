@@ -1,0 +1,26 @@
+// FINAL PROJECT
+//
+// Create an image processing application.  Exactly what it does and how it does
+// it is up to you, though I've stubbed a good amount of suggestions for you.
+// Look for comments labeled **OPTION** below.
+//
+// Two image files are included in the project root for your convenience: dyson.png and pens.png
+// Feel free to use them or provide (or generate) your own images.
+//
+// Don't forget to have fun and play around with the code!
+//
+// Documentation for the image library is here: https://docs.rs/image/0.21.0/image/
+//
+// NOTE 1: Image processing is very CPU-intensive.  Your program will run *noticeably* faster if you
+// run it with the `--release` flag.
+//
+//     cargo run --release [ARG1 [ARG2]]
+//
+// For example:
+//
+//     cargo run --release blur image.png blurred.png
+//
+// NOTE 2: This is how you parse a number from a string (or crash with a
+// message). It works with any integer or float type.
+//
+//     let positive_number: u32 = some_string.parse().expect("Failed to parse a number");
