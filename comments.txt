@@ -26,6 +26,13 @@
 //     let positive_number: u32 = some_string.parse().expect("Failed to parse a number");
 
 
+    // 1. First, you need to implement some basic command-line argument handling
+    // so you can make your program do different things.  Here's a little bit
+    // to get you started doing manual parsing.
+    //
+    // Challenge: If you're feeling really ambitious, you could delete this code
+    // and use the "clap" library instead: https://docs.rs/clap/2.32.0/clap/
+
     let mut args: Vec<String> = std::env::args().skip(1).collect();
     if args.is_empty() {
         print_usage_and_exit();
