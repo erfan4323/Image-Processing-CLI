@@ -2,7 +2,7 @@
 
 use std::sync::Arc;
 
-use clap::{arg, command, value_parser, ArgAction, Command};
+use clap::{arg, command, value_parser, ArgAction, ArgMatches, Command};
 
 mod args;
 use args::i_args;
@@ -16,7 +16,26 @@ fn main() {
     //
     // Challenge: If you're feeling really ambitious, you could delete this code
     // and use the "clap" library instead: https://docs.rs/clap/2.32.0/clap/
-    let matches = i_args();
+    let matches: ArgMatches = i_args();
+
+    let effect = matches.get_one::<String>("effect").unwrap().as_str();
+
+    let infile = matches.get_one::<String>("input").unwrap();
+
+    let outfile = matches.get_one::<String>("output").unwrap();
+
+    //crop, rotate, invert, grayscale, generate
+    match effect {
+        "blur" => blur(infile.clone(), outfile.clone()),
+        "brighten" => brighten(infile.clone(), outfile.clone()),
+        "crop" => crop(infile.clone(), outfile.clone()),
+        "rotate" => rotate(infile.clone(), outfile.clone()),
+        "invert" => invert(infile.clone(), outfile.clone()),
+        "graysclae" => grayscale(infile.clone(), outfile.clone()),
+        "generate" => generate(outfile.clone()),
+        "fractal" => fractal(outfile.clone()),
+        _ => println!("Please get some help"),
+    }
 
     let mut args: Vec<String> = std::env::args().skip(1).collect();
     if args.is_empty() {

@@ -12,6 +12,7 @@ pub fn i_args() -> clap::ArgMatches {
                     .required(true)
                     .requires("input")
                     .requires("output")
+                    .value_name("EFFECT")
             )
         .arg(
                 Arg::new("input")
@@ -20,6 +21,7 @@ pub fn i_args() -> clap::ArgMatches {
                     .aliases(["in", "input"])
                     .help("your image input should be specified here.")
                     .required(true)
+                    .value_name("FILE")
             )
         .arg(
                 Arg::new("output")
@@ -28,12 +30,15 @@ pub fn i_args() -> clap::ArgMatches {
                     .aliases(["out", "output"])
                     .help("your image output should be specified here.")
                     .required(true)
+                    .value_name("FILE")
             )
         .arg(
                 Arg::new("effect-help")
                     .long("effect-help")
                     .aliases(["effect-help", "eh"])
                     .help("this will print the available effects")
+                    .value_name("")
+                    .action(clap::ArgAction::Help)
             )
         .get_matches()
 }
