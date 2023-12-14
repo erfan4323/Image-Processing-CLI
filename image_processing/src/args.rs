@@ -10,6 +10,8 @@ pub fn i_args() -> clap::ArgMatches {
                     .aliases(["eff", "e", "effect"])
                     .help("you can specify you desired effect here, to see the avalible effects, run --effect-help")
                     .required(true)
+                    .requires("input")
+                    .requires("output")
             )
         .arg(
                 Arg::new("input")
