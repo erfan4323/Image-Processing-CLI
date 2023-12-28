@@ -10,7 +10,7 @@ pub fn i_args() -> clap::ArgMatches {
                     .aliases(["eff", "e", "effect"])
                     .help("you can specify you desired effect here, to see the avalible effects, run --effect-help")
                     .required(true)
-                    .requires("input")
+                    //.requires("input")
                     .requires("output")
                     .value_name("EFFECT")
             )
@@ -20,7 +20,7 @@ pub fn i_args() -> clap::ArgMatches {
                     .long("input")
                     .aliases(["in", "input"])
                     .help("your image input should be specified here.")
-                    .required(true)
+                    //.required(true)
                     .value_name("FILE")
             )
         .arg(

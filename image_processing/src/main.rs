@@ -1,5 +1,4 @@
 use clap::ArgMatches;
-use std::path::Path;
 
 mod args;
 use args::i_args;
@@ -13,19 +12,18 @@ macro_rules! read {
 }
 
 fn main() {
+    let binding = "".to_string();
+
     let matches: ArgMatches = i_args();
 
     let effect = matches.get_one::<String>("effect").unwrap().as_str();
 
-    let infile = matches.get_one::<String>("input").unwrap();
+    let infile = matches.get_one::<String>("input").unwrap_or(&binding);
 
     let outfile = matches.get_one::<String>("output").unwrap();
 
-    if !Path::new(infile).exists() {
-        panic!(
-            "Unknown file or file not found -> input : {} , output : {}",
-            infile, outfile
-        )
+    if !(effect == "generate" || effect == "fractal") && infile.is_empty() {
+        panic!("you must specify your input file.")
     }
 
     match effect {
