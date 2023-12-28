@@ -54,6 +54,6 @@ The core cammands aquire three arguments : **effect, input file and output file*
 
 ## ToDo
 
-[ ] Stackable commands
+- [ ] Stackable commands
 
-[ ] Effect value should be an argument
+- [ ] Effect value should be an argument
