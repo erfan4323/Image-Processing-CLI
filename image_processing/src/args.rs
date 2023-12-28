@@ -3,6 +3,8 @@ use clap::{command, Arg};
 pub fn i_args() -> clap::ArgMatches {
     command!()
         .about("image processing to blur, brighten, crop, rotate, invert, grayscale, generate and fractal images.")
+        .version("0.1.0")
+        .author("Erfan Ebrahimi")
         .arg(
                 Arg::new("effect")
                     .short('e')
