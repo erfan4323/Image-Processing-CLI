@@ -1,17 +1,9 @@
-#![allow(unused)]
+use clap::ArgMatches;
+use std::path::Path;
 
-use clap::{arg, command, value_parser, ArgAction, ArgMatches, Command};
-use image::Rgb;
-use std::{
-    fs::File,
-    path::{Path, PathBuf},
-    sync::Arc,
-};
 mod args;
 use args::i_args;
-mod test;
 
-#[allow(unused_macros)]
 macro_rules! read {
     ($out:ident as $type:ty) => {
         let mut inner = String::new();
@@ -29,23 +21,23 @@ fn main() {
 
     let outfile = matches.get_one::<String>("output").unwrap();
 
-    if Path::new(infile).exists() {
-        match effect {
-            "blur" => blur(infile.clone(), outfile.clone()),
-            "brighten" => brighten(infile.clone(), outfile.clone()),
-            "crop" => crop(infile.clone(), outfile.clone()),
-            "rotate" => rotate(infile.clone(), outfile.clone()),
-            "invert" => invert(infile.clone(), outfile.clone()),
-            "graysclae" => grayscale(infile.clone(), outfile.clone()),
-            "generate" => generate(outfile.clone()),
-            "fractal" => fractal(outfile.clone()),
-            _ => println!("Please get some help"),
-        }
-    } else {
+    if !Path::new(infile).exists() {
         panic!(
             "Unknown file or file not found -> input : {} , output : {}",
             infile, outfile
         )
+    }
+
+    match effect {
+        "blur" => blur(infile.clone(), outfile.clone()),
+        "brighten" => brighten(infile.clone(), outfile.clone()),
+        "crop" => crop(infile.clone(), outfile.clone()),
+        "rotate" => rotate(infile.clone(), outfile.clone()),
+        "invert" => invert(infile.clone(), outfile.clone()),
+        "graysclae" => grayscale(infile.clone(), outfile.clone()),
+        "generate" => generate(outfile.clone()),
+        "fractal" => fractal(outfile.clone()),
+        _ => println!("Please get some help"),
     }
 }
 
@@ -83,7 +75,7 @@ fn crop(infile: String, outfile: String) {
 }
 
 fn rotate(infile: String, outfile: String) {
-    let mut img = image::open(infile).expect("Failed to open INFILE.");
+    let img = image::open(infile).expect("Failed to open INFILE.");
 
     println!("Please enter your desired rotation (90, 180, 270) : ");
     read!(x as u16);
@@ -105,31 +97,29 @@ fn invert(infile: String, outfile: String) {
 }
 
 fn grayscale(infile: String, outfile: String) {
-    let mut img = image::open(infile).expect("Failed to open INFILE.");
+    let img = image::open(infile).expect("Failed to open INFILE.");
 
     img.grayscale();
     img.save(outfile).expect("Failed writing OUTFILE.");
 }
 
 fn generate(outfile: String) {
-    // Create an ImageBuffer -- see fractal() for an example
-
-    // Iterate over the coordinates and pixels of the image -- see fractal() for an example
-
-    // Set the image to some solid color. -- see fractal() for an example
-
-    // Challenge: parse some color data from the command-line, pass it through
-    // to this function to use for the solid color.
-
-    // Challenge 2: Generate something more interesting!
-
-    // See blur() for an example of how to save the image
-
     let width = 800;
     let height = 800;
 
     let mut imgbuf: image::ImageBuffer<image::Rgb<u8>, Vec<u8>> =
         image::ImageBuffer::new(width, height);
+
+    imgbuf.enumerate_pixels_mut().for_each(|(x, y, pixel)| {
+        let red = (0.3 * x as f32) as u8;
+        let blue = (0.3 * y as f32) as u8;
+        let mut green = 0;
+        while green < 255 {
+            green += 1;
+        }
+        *pixel = image::Rgb([red, green, blue]);
+    });
+    imgbuf.save(outfile).unwrap();
 }
 
 fn fractal(outfile: String) {
@@ -167,21 +157,3 @@ fn fractal(outfile: String) {
 
     imgbuf.save(outfile).unwrap();
 }
-
-// **SUPER CHALLENGE FOR LATER** - Let's face it, you don't have time for this during class.
-//
-// Make all of the subcommands stackable!
-//
-// For example, if you run:
-//
-//   cargo run infile.png outfile.png blur 2.5 invert rotate 180 brighten 10
-//
-// ...then your program would:
-// - read infile.png
-// - apply a blur of 2.5
-// - invert the colors
-// - rotate the image 180 degrees clockwise
-// - brighten the image by 10
-// - and write the result to outfile.png
-//
-// Good luck!
